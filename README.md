@@ -41,4 +41,8 @@ Roles are proposed and may be adjusted by agreement.
 
 ## Project Status
 In development — components and integrations are not yet verified.
-  
+
+## Development Workflow
+
+Each team member works on a separate feature branch.
+Changes are reviewed through Pull Requests before merging into main.
