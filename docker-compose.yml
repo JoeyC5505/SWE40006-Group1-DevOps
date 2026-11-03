@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    image: student-task-app:latest
+    container_name: student-task-app
+    ports:
+      - "5000:5000"
+    restart: always
