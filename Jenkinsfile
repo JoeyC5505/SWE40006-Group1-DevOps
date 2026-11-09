@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'student-task-app'
         PROD_USER = 'raqib'
-        PROD_HOST = '192.168.100.68'
+        PROD_HOST = '192.168.100.69'
     }
 
     stages {
@@ -47,10 +47,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline complete — deployed to production successfully.'
+            echo 'Pipeline complete   deployed to production successfully.'
         }
         failure {
-            echo 'Pipeline failed — production deployment skipped.'
+            echo 'Pipeline failed   production deployment skipped.'
         }
     }
 }
