@@ -23,12 +23,12 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                sh '''
-                    docker run --rm student-task-app:latest pytest tests/ -v
-                '''
-            }
-        }
+    steps {
+        sh '''
+            docker run --rm -e PYTHONPATH=/app student-task-app:latest pytest tests/ -v
+        '''
+    }
+}
 
         stage('Deploy to Production') {
             steps {
