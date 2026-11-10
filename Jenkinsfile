@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'student-task-app'
         PROD_USER = 'raqib'
-        PROD_HOST = '192.168.100.69'
+        PROD_HOST = '172.20.10.3'
     }
 
     stages {
