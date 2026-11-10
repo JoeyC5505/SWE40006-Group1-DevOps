@@ -10,7 +10,8 @@ The project also incorporates production performance monitoring using Prometheus
 
 **Target Level:** Level 4  
 **Application:** Student Task Management System  
-**Project Status:** Development and Integration in Progress
+**Project Status:** CI/CD Pipeline Successfully Tested — Final Level 4 Verification Pending
+
 
 ## Student Task Management System
 
@@ -117,9 +118,9 @@ All team members will support integration testing, troubleshooting, documentatio
 | GitHub repository and collaboration | Completed |
 | Flask application development | Completed |
 | Local automated testing | 9 tests passed |
-| VM1 — Jenkins Server | Basic setup completed |
-| VM2 — Test Server | Basic setup completed |
-| VM1 to VM2 manual SSH connection | Verified |
+| VM1 — Jenkins Server | Completed — Ubuntu Server, Jenkins, Docker and required plugins installed and configured |
+| VM2 — Test Server | Completed — Docker, Docker Compose, Java 21 and Jenkins agent `vm2-docker` configured and tested successfully |
+| VM1 to VM2 manual SSH connection | Completed — passwordless SSH connection verified and `vm2-ssh` credential configured in Jenkins |
 | VM3 — Production Server | Initial Docker deployment demonstrated |
 | Jenkins automated Build/Test/Deploy | In progress |
 | Node Exporter on VM3 | Running; metrics reachable on port 9100 |
@@ -310,6 +311,8 @@ Passwords, SSH private keys, access tokens and other sensitive credentials must 
 
 ## Project Status
 
-**In Progress — Full Integration and Level 4 Verification Pending**
+**CI/CD Pipeline Successfully Tested — Final Level 4 Verification Pending**
 
-The application and initial monitoring infrastructure have been developed and demonstrated. The remaining work focuses on completing Jenkins automation, integrating the deployment stages, verifying production monitoring after deployment and demonstrating the Level 4 DevOps pipeline.
+The Jenkins CI/CD pipeline has been successfully tested. VM1 is working as the Jenkins controller, while VM2 is used as the Jenkins agent for Docker builds and automated testing. All 9 automated tests passed, and the pipeline successfully deployed the application to VM3.
+
+The remaining work includes the final Level 4 automatic deployment demonstration and post-deployment monitoring verification.
