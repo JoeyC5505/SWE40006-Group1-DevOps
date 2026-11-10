@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         IMAGE_NAME = 'student-task-app'
@@ -9,6 +9,7 @@ pipeline {
 
     stages {
         stage('Clone') {
+            agent { label 'vm2-docker' }
             steps {
                 git branch: 'feature/docker',
                     credentialsId: 'github-repo-access',
@@ -17,27 +18,30 @@ pipeline {
         }
 
         stage('Build') {
+            agent { label 'vm2-docker' }
             steps {
                 sh 'docker build -t ${IMAGE_NAME}:latest .'
             }
         }
 
         stage('Test') {
-    steps {
-        sh '''
-            docker run --rm -e PYTHONPATH=/app student-task-app:latest pytest tests/ -v
-        '''
-    }
-}
+            agent { label 'vm2-docker' }
+            steps {
+                sh '''
+                    docker run --rm -e PYTHONPATH=/app ${IMAGE_NAME}:latest pytest tests/ -v
+                '''
+            }
+        }
 
         stage('Deploy to Production') {
+            agent { label 'built-in' }
             steps {
                 sshagent(['prod-server-ssh']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} "
                             cd ~/SWE40006-Group1-DevOps &&
                             git fetch origin &&
-			    git reset --hard origin/feature/docker &&
+                            git reset --hard origin/feature/docker &&
                             docker compose down &&
                             docker compose up -d --build
                         "
