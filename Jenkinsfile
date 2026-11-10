@@ -36,7 +36,8 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} "
                             cd ~/SWE40006-Group1-DevOps &&
-                            git pull origin main &&
+                            git fetch origin &&
+			    git reset --hard origin/main &&
                             docker compose down &&
                             docker compose up -d --build
                         "
