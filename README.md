@@ -103,23 +103,35 @@ All team members will support integration testing, troubleshooting, documentatio
 | VM1 to VM2 manual SSH connection | Verified |
 | VM3 — Production Server | Initial Docker deployment demonstrated |
 | Jenkins automated Build/Test/Deploy | In progress |
-| Prometheus and Grafana configuration files | Uploaded |
-| Production monitoring integration | Pending verification |
+| Node Exporter on VM3 | Running; metrics reachable on port 9100 |
+| Prometheus and Grafana configuration files | Uploaded (`monitoring/` folder on `feature/monitoring`) |
+| Production monitoring integration | Verified: Prometheus collects VM3 metrics and Grafana displays them. Post-deployment verification pending |
 | Level 4 automatic deployment | Not yet verified |
 
 *This progress summary reflects the team's reported work. Successful installation does not necessarily mean end-to-end pipeline integration has been completed.*
 
 ## Monitoring
 
-The planned monitoring components are:
+Monitoring components:
 
 - Node Exporter on VM3 — Port 9100
 - Prometheus — Port 9090
 - Grafana — Port 3000
 
-Monitoring configuration files have been uploaded to the repository. Connection to the production server and verification of live metrics are still pending.
+**Current status**
 
-Monitoring will be considered complete when Prometheus can successfully collect VM3 metrics and Grafana displays the production server's CPU, memory and other performance data.
+- Node Exporter is running on VM3, and its metrics were verified from the monitoring machine.
+- Prometheus is configured with a `production-server` job targeting VM3 (`172.20.10.3:9100`). The Prometheus Target health page shows the target as **UP**.
+- Grafana is connected to Prometheus. The "Production Server Monitoring" dashboard displays CPU usage, memory usage, disk usage and node availability from live data.
+- The configuration files, dashboard export and setup guide are in the `monitoring/` folder (see `monitoring/README.md`).
+
+**Current limitations**
+
+- Prometheus and Grafana currently run on the owner's laptop, on the same hotspot as VM3. The team still needs to decide whether to move them to VM1 for the final demonstration.
+- VM3's address is assigned by the hotspot, so it may change. If it does, the target in `monitoring/prometheus.yml` must be updated.
+- Monitoring has not yet been verified during a Jenkins-triggered deployment. This will be shown in the Level 4 demonstration.
+
+Monitoring will be considered complete when the dashboard keeps displaying the production server's metrics after the automated Level 4 deployment.
 
 ## Development Workflow
 
@@ -141,7 +153,7 @@ Passwords, SSH private keys and other sensitive credentials must not be committe
 2. Configure the required SSH connections among the servers.
 3. Build the application and perform automated testing through Jenkins.
 4. Deploy the approved application to VM3.
-5. Integrate Prometheus and Grafana with production metrics.
+5. Decide where monitoring runs for the final demonstration (VM1 or the owner's laptop) and verify the dashboard after the Level 4 deployment.
 6. Demonstrate automatic deployment after a source-code change.
 7. Collect screenshots and testing results for the final project report.
 
