@@ -1,3 +1,4 @@
+
 import os
 import sqlite3
 
@@ -59,6 +60,18 @@ def create_database():
             ADD COLUMN priority TEXT NOT NULL DEFAULT 'Medium'
         """)
 
+    if "start_date" not in columns:
+        connection.execute("""
+            ALTER TABLE tasks
+            ADD COLUMN start_date TEXT
+        """)
+
+    if "end_date" not in columns:
+        connection.execute("""
+            ALTER TABLE tasks
+            ADD COLUMN end_date TEXT
+        """)
+
     connection.commit()
     connection.close()
 
@@ -83,18 +96,23 @@ def add_task():
     title = request.form.get("title", "").strip()
     description = request.form.get("description", "").strip()
     priority = request.form.get("priority", "Medium")
+    start_date = request.form.get("start_date", "")
+    end_date = request.form.get("end_date", "")
 
     if priority not in PRIORITIES:
         priority = "Medium"
+
+    if start_date and end_date and end_date < start_date:
+        return "End date cannot be before start date.", 400
 
     if title:
         connection = get_db()
 
         connection.execute(
             """INSERT INTO tasks
-            (title, description, priority)
-            VALUES (?, ?, ?)""",
-            (title, description, priority)
+            (title, description, priority, start_date, end_date)
+            VALUES (?, ?, ?, ?, ?)""",
+            (title, description, priority, start_date, end_date)
         )
 
         connection.commit()
@@ -109,18 +127,24 @@ def edit_task(task_id):
     title = request.form.get("title", "").strip()
     description = request.form.get("description", "").strip()
     priority = request.form.get("priority", "Medium")
+    start_date = request.form.get("start_date", "")
+    end_date = request.form.get("end_date", "")
 
     if priority not in PRIORITIES:
         priority = "Medium"
+
+    if start_date and end_date and end_date < start_date:
+        return "End date cannot be before start date.", 400
 
     if title:
         connection = get_db()
 
         connection.execute(
             """UPDATE tasks
-            SET title=?, description=?, priority=?
+            SET title=?, description=?, priority=?,
+                start_date=?, end_date=?
             WHERE id=?""",
-            (title, description, priority, task_id)
+            (title, description, priority, start_date, end_date, task_id)
         )
 
         connection.commit()
