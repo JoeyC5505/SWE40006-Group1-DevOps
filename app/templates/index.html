@@ -46,6 +46,12 @@
             border-radius: 8px;
         }
 
+        .date-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
         input, textarea, select {
             width: 100%;
             padding: 12px;
@@ -59,6 +65,13 @@
         textarea {
             resize: vertical;
             min-height: 80px;
+        }
+
+        @media (max-width: 520px) {
+            .date-fields {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
         }
 
         label {
@@ -185,6 +198,17 @@
                 placeholder="Enter task description"
             ></textarea>
 
+            <div class="date-fields">
+                <div>
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start_date">
+                </div>
+                <div>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end_date">
+                </div>
+            </div>
+
             <label for="priority">Task Priority:</label>
 
             <select name="priority" id="priority" required>
@@ -213,6 +237,14 @@
                 <h3>{{ task.title }}</h3>
 
                 <p>{{ task.description }}</p>
+
+                {% if task.start_date or task.end_date %}
+                    <p>
+                        {% if task.start_date %}Start: {{ task.start_date }}{% endif %}
+                        {% if task.start_date and task.end_date %} | {% endif %}
+                        {% if task.end_date %}End: {{ task.end_date }}{% endif %}
+                    </p>
+                {% endif %}
 
                 <p>
                     Status:
@@ -270,6 +302,27 @@
                             >
 
                             <textarea name="description">{{ task.description }}</textarea>
+
+                            <div class="date-fields">
+                                <div>
+                                    <label for="start-date-{{ task.id }}">Start Date:</label>
+                                    <input
+                                        type="date"
+                                        id="start-date-{{ task.id }}"
+                                        name="start_date"
+                                        value="{{ task.start_date or '' }}"
+                                    >
+                                </div>
+                                <div>
+                                    <label for="end-date-{{ task.id }}">End Date:</label>
+                                    <input
+                                        type="date"
+                                        id="end-date-{{ task.id }}"
+                                        name="end_date"
+                                        value="{{ task.end_date or '' }}"
+                                    >
+                                </div>
+                            </div>
 
                             <label>Task Priority:</label>
 

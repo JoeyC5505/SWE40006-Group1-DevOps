@@ -27,11 +27,15 @@ def test_add_task(client):
     response = client.post("/add", data={
         "title": "Complete Assignment",
         "description": "Finish Flask development",
-        "priority": "Medium"
+        "priority": "Medium",
+        "start_date": "2026-11-12",
+        "end_date": "2026-11-20"
     }, follow_redirects=True)
 
     assert response.status_code == 200
     assert b"Complete Assignment" in response.data
+    assert b"Start: 2026-11-12" in response.data
+    assert b"End: 2026-11-20" in response.data
 
 
 def test_complete_task(client):
@@ -49,16 +53,22 @@ def test_complete_task(client):
 def test_edit_task(client):
     client.post("/add", data={
         "title": "Old Task",
-        "description": "Old description"
+        "description": "Old description",
+        "start_date": "2026-11-12",
+        "end_date": "2026-11-20"
     })
 
     response = client.post("/edit/1", data={
         "title": "Updated Task",
-        "description": "Updated description"
+        "description": "Updated description",
+        "start_date": "2026-11-13",
+        "end_date": "2026-11-21"
     }, follow_redirects=True)
 
     assert response.status_code == 200
     assert b"Updated Task" in response.data
+    assert b"Start: 2026-11-13" in response.data
+    assert b"End: 2026-11-21" in response.data
 
 
 def test_delete_task(client):
