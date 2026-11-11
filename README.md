@@ -1,17 +1,19 @@
+
 # SWE40006 Group 1 — DevOps Deployment Pipeline
 
 ## Project Overview
 
-This project is developed by Group 1 for SWE40006 Software Deployment and Evolution at Swinburne University of Technology.
+This project was developed by Group 1 for SWE40006 Software Deployment and Evolution at Swinburne University of Technology.
 
-Our objective is to design and implement a Level 4 DevOps pipeline for a Student Task Management System. The pipeline aims to automate the software build, testing and deployment process using GitHub, Jenkins, Docker and Ubuntu Server virtual machines.
+Our team designed and implemented a Level 4 DevOps pipeline for a Student Task Management System. The pipeline automates the software build, testing and deployment process using GitHub, Jenkins, Docker and Ubuntu Server virtual machines.
 
 The project also incorporates production performance monitoring using Prometheus, Grafana and Node Exporter to monitor the health and performance of the production server.
 
 **Target Level:** Level 4  
 **Application:** Student Task Management System  
-**Project Status:** CI/CD Pipeline Successfully Tested — Final Level 4 Verification Pending
+**Project Status:** Implementation and Testing Completed
 
+---
 
 ## Student Task Management System
 
@@ -27,7 +29,9 @@ The main features include:
 - Assign task priorities (High, Medium and Low).
 - Verify application availability through the `/health` endpoint.
 
-The application has been developed, and all 9 automated pytest tests have passed in the developer's local environment. Testing through the complete Jenkins pipeline is still pending.
+The application has been successfully developed and tested. All nine automated pytest tests passed locally and through the Jenkins CI/CD pipeline on VM2. The application was successfully deployed to VM3 using Docker Compose.
+
+---
 
 ## Technologies Used
 
@@ -46,17 +50,19 @@ The application has been developed, and all 9 automated pytest tests have passed
 | Grafana | Monitoring dashboard and data visualisation |
 | Node Exporter | Collection of Linux server metrics |
 
-## Proposed DevOps Architecture
+---
+
+## DevOps Architecture
 
 The project uses three virtual machines, each assigned a specific responsibility.
 
 | Server | Responsibility |
 |---|---|
-| VM1 — Jenkins Server | CI/CD orchestration, build automation and deployment coordination |
-| VM2 — Test Server | Application testing and verification |
+| VM1 — Jenkins Server | CI/CD orchestration and deployment coordination |
+| VM2 — Test Server | Jenkins agent, Docker image build and automated pytest execution |
 | VM3 — Production Server | Hosting the deployed Flask application |
 
-The planned deployment workflow is:
+### Deployment Workflow
 
 ```text
 Developer
@@ -65,231 +71,402 @@ Developer
 GitHub Repository
     |
     v
-Jenkins (VM1)
+Jenkins Controller (VM1)
     |
     v
 Test Server (VM2)
+Docker Build + 9 Automated pytest Tests
+    |
+    v
+Tests Passed
     |
     v
 Production Server (VM3)
+SSH + Docker Compose Deployment
     |
     v
 Running Flask Application
+    |
+    v
+Production Monitoring
+Node Exporter + Prometheus + Grafana
 ```
 
-Production server performance is monitored using Node Exporter, Prometheus and Grafana.
+The Jenkins controller on VM1 coordinates the pipeline. VM2 acts as the build and testing agent, while VM3 hosts the production application.
+
+The production deployment stage is executed after the automated tests pass. Production performance is monitored using Node Exporter, Prometheus and Grafana.
+
+---
 
 ## Project Levels
 
 ### Level 1 — DevOps Infrastructure
 
-Establish the GitHub repository, CI/build server, test server and production server. Configure the required virtual machines and communication between the servers.
+The team established a complete DevOps environment consisting of:
+
+- GitHub source code repository.
+- VM1 Jenkins controller.
+- VM2 build and test server.
+- VM3 production server.
+- SSH connectivity between the relevant environments.
+
+The separate virtual machines provide isolated environments for building, testing and deploying the application.
 
 ### Level 2 — Production Monitoring
 
-Configure monitoring to collect production server performance metrics using Node Exporter and Prometheus. Visualise the collected metrics through Grafana dashboards.
+The production server is monitored using Node Exporter, Prometheus and Grafana.
+
+- Node Exporter collects Linux server metrics from VM3.
+- Prometheus collects and stores production performance data.
+- Grafana displays CPU usage, memory usage, disk usage and server availability.
 
 ### Level 3 — Application Deployment
 
-Deploy the Flask application through the pipeline and verify that it is accessible and functioning correctly on the production server.
+The Flask Student Task Management System was successfully deployed through the Jenkins pipeline.
+
+- The application was packaged using Docker.
+- All nine automated pytest tests passed on VM2.
+- The application was deployed to VM3 using Docker Compose.
+- The production application was accessible through a web browser.
+- The `/health` endpoint returned a successful HTTP 200 response.
 
 ### Level 4 — Automated Deployment
 
-Demonstrate that a source-code change triggers an automatic or deferred pipeline execution, including application building, automated testing and production deployment.
+The team implemented a CI/CD workflow that supports deployment following source-code changes.
 
-The deployment process should also include verification that the application is running successfully after deployment.
+The workflow includes:
+
+1. Updating the application source code in GitHub.
+2. Triggering the Jenkins pipeline.
+3. Building the application Docker image on VM2.
+4. Running automated pytest tests.
+5. Deploying the application to VM3 after successful testing.
+6. Verifying the updated production application and monitoring results.
+
+The team has completed the integration and deployment testing for the Level 4 workflow.
+
+---
 
 ## Team Members and Responsibilities
 
 | Member | Name | Responsibility |
 |---|---|---|
-| 1 | Chan Kar Yan | GitHub repository management, Pull Request review, team coordination and evidence collection |
-| 2 | Yong Khai Cheik | VM1 and VM2 setup, Ubuntu, Jenkins installation, Docker, Docker Compose and SSH |
-| 3 | Charya Kavingi Mayadunna Dissawage | Flask application development, SQLite integration and pytest |
-| 4 | Raqibul Hasan | VM3, Jenkins Pipeline configuration, automated Build/Test and Production Deployment |
-| 5 | Lee Ren Qi | Prometheus, Grafana, Node Exporter and production monitoring |
+| 1 | Chan Kar Yan | GitHub repository management, Pull Request reviews, team coordination, documentation and presentation preparation |
+| 2 | Yong Khai Cheik | VM1 and VM2 setup, Ubuntu, Jenkins installation, Docker, SSH and networking |
+| 3 | Charya Kavingi Mayadunna Dissawage | Flask application development, SQLite integration and automated pytest testing |
+| 4 | Raqibul Hasan | Jenkins CI/CD pipeline, Docker configuration, VM3 production server and automated deployment |
+| 5 | Lee Ren Qi | Prometheus, Grafana, Node Exporter and production performance monitoring |
 
-All team members will support integration testing, troubleshooting, documentation and final presentation preparation.
+---
 
-## Current Development Progress
+## Implementation and Individual Contributions
 
-| Component | Current Status |
+### 1. GitHub Repository and Team Integration — Chan Kar Yan
+
+The GitHub repository provides a central platform for source code management, collaboration and project integration.
+
+Main contributions:
+
+- Established and managed the shared GitHub repository.
+- Invited team members and configured repository collaboration.
+- Organised feature branches for application development, Jenkins, Docker and monitoring.
+- Reviewed Pull Requests and coordinated the integration of individual contributions.
+- Communicated with team members regarding task allocation, project progress and integration issues.
+- Reviewed the project structure and identified differences between development and deployment configurations.
+- Collected project evidence and prepared the presentation slides.
+- Organised presentation responsibilities and the live demonstration workflow.
+
+**Supporting evidence:** GitHub repository, collaborator list, feature branches, commits, merged Pull Requests, team discussions and presentation materials.
+
+### 2. VM Infrastructure and Networking — Yong Khai Cheik
+
+VM1 and VM2 provide the infrastructure required for CI/CD orchestration, Docker builds and automated testing.
+
+| Environment | Configuration |
+|---|---|
+| VM1 | Ubuntu Server, Jenkins controller and required plugins |
+| VM2 | Ubuntu Server, Docker, Docker Compose, Java 21 and Jenkins build/test agent |
+
+Main contributions:
+
+- Installed and configured Ubuntu Server on VM1 and VM2.
+- Installed Jenkins and configured the CI/CD infrastructure.
+- Installed Docker and Docker Compose on VM2.
+- Configured the Jenkins agent using the label `vm2-docker`.
+- Established SSH connectivity between the virtual machines.
+- Configured passwordless SSH authentication and supported Jenkins credentials setup.
+- Worked with Raqibul to resolve networking and connectivity issues between the servers.
+- Supported Docker builds, automated testing and end-to-end pipeline verification.
+
+**Supporting evidence:** VM installation screenshots, Jenkins dashboard, agent configuration, SSH connectivity, Docker service status and pipeline testing results.
+
+### 3. Flask Application and Automated Testing — Charya Kavingi Mayadunna Dissawage
+
+The Student Task Management System was developed using Python Flask and SQLite to provide a functional application for the DevOps deployment pipeline.
+
+Main contributions:
+
+- Developed the Flask web application and user interface.
+- Implemented SQLite database integration.
+- Developed task creation, viewing, editing and deletion functionality.
+- Implemented task completion status and priority management.
+- Developed the `/health` endpoint to verify application availability.
+- Created nine automated pytest tests to verify application functionality.
+- Verified the application and automated tests in the local development environment.
+- Supported Docker packaging and application integration with the Jenkins pipeline.
+
+**Testing results:** All nine automated tests passed locally and during the Jenkins pipeline testing on VM2.
+
+**Relevant project files:**
+
+- `app/`
+- `run.py`
+- `requirements.txt`
+- `tests/`
+
+**Supporting evidence:** Flask source code, application screenshots, automated pytest results and health endpoint verification.
+
+### 4. Jenkins CI/CD and Production Deployment — Raqibul Hasan
+
+The Jenkins pipeline automates application building, testing and production deployment. VM3 provides the production environment for the Flask application.
+
+#### Jenkins Pipeline Stages
+
+| Stage | Execution Environment | Description |
+|---|---|---|
+| Clone | VM2 | Retrieve the application source code from GitHub |
+| Build | VM2 | Build the application Docker image |
+| Test | VM2 | Execute automated pytest tests inside the Docker container |
+| Deploy to Production | VM1 to VM3 | Connect through SSH and deploy the application using Docker Compose |
+
+Main contributions:
+
+- Configured the Jenkins Build, Test and Deploy pipeline.
+- Created and maintained Docker deployment configurations.
+- Installed Ubuntu Server and Docker on VM3.
+- Configured SSH access for Jenkins production deployment.
+- Resolved Docker container startup and application configuration issues.
+- Configured the production deployment process using Docker Compose.
+- Verified that the application was accessible on the production server.
+- Verified the `/health` endpoint returned HTTP 200 with a healthy status.
+- Installed Node Exporter on VM3 and supported monitoring integration with Ren Qi.
+- Completed pipeline integration and deployment testing with Yong.
+
+**Relevant project files:**
+
+- `Jenkinsfile`
+- `Dockerfile`
+- Docker Compose configuration
+- Deployment scripts
+
+**Supporting evidence:** Jenkins pipeline stages, console output, Docker container status, production application screenshots and health check results.
+
+### 5. Production Monitoring — Lee Ren Qi
+
+The production monitoring system provides visibility into the health and performance of VM3.
+
+#### Monitoring Architecture
+
+```text
+VM3 Production Server
+        |
+        v
+Node Exporter (Port 9100)
+        |
+        v
+Prometheus (Port 9090)
+        |
+        v
+Grafana (Port 3000)
+        |
+        v
+Production Monitoring Dashboard
+```
+
+Main contributions:
+
+- Configured Prometheus to collect production server metrics.
+- Configured the Grafana data source and monitoring dashboard.
+- Created the Production Server Monitoring dashboard.
+- Configured production server monitoring for CPU usage, memory usage, disk usage and node availability.
+- Coordinated Node Exporter connectivity with Raqibul.
+- Verified that the Prometheus production server target was UP.
+- Maintained the monitoring configuration, dashboard JSON export and installation instructions.
+- Supported monitoring integration during project testing.
+
+#### Monitoring Components
+
+| Component | Port | Responsibility |
+|---|---|---|
+| Node Exporter | 9100 | Collects Linux server performance metrics |
+| Prometheus | 9090 | Collects and stores monitoring metrics |
+| Grafana | 3000 | Displays production monitoring dashboards |
+
+**Relevant project files:**
+
+- `monitoring/prometheus.yml`
+- `monitoring/production-server-monitoring.json`
+- `monitoring/README.md`
+
+**Supporting evidence:** Prometheus Targets page, Grafana dashboard screenshots, Node Exporter metrics and monitoring configuration files.
+
+---
+
+## Final Implementation and Testing Results
+
+| Component | Final Status |
 |---|---|
 | GitHub repository and collaboration | Completed |
 | Flask application development | Completed |
-| Local automated testing | 9 tests passed |
-| VM1 — Jenkins Server | Completed — Ubuntu Server, Jenkins, Docker and required plugins installed and configured |
-| VM2 — Test Server | Completed — Docker, Docker Compose, Java 21 and Jenkins agent `vm2-docker` configured and tested successfully |
-| VM1 to VM2 manual SSH connection | Completed — passwordless SSH connection verified and `vm2-ssh` credential configured in Jenkins |
-| VM3 — Production Server | Initial Docker deployment demonstrated |
-| Jenkins automated Build/Test/Deploy | In progress |
-| Node Exporter on VM3 | Running; metrics reachable on port 9100 |
-| Prometheus and Grafana configuration files | Uploaded in the `monitoring/` folder on `feature/monitoring` |
-| Production monitoring integration | Verified: Prometheus collects VM3 metrics and Grafana displays CPU usage, memory usage, disk usage and node availability |
-| Updated Grafana dashboard export | Updated JSON export maintained in the `monitoring/` folder |
-| Post-deployment monitoring verification | Pending |
-| Level 4 automatic deployment | Not yet verified |
+| Local automated testing | All 9 tests passed |
+| VM1 — Jenkins Server | Configured and operational |
+| VM2 — Build and Test Server | Configured and operational |
+| VM3 — Production Server | Configured and operational |
+| SSH connectivity | Configured and tested |
+| Docker image build | Successfully completed |
+| Jenkins automated testing | All 9 tests passed |
+| Jenkins production deployment | Successfully tested |
+| Production application access | Verified |
+| Production health check | HTTP 200 — Healthy |
+| Node Exporter | Running |
+| Prometheus | Production target UP |
+| Grafana dashboard | Operational |
+| Level 4 integration and deployment testing | Completed |
 
-*This progress summary reflects the team's reported work. Successful installation does not necessarily mean end-to-end pipeline integration has been completed.*
+The team completed the integration testing of the CI/CD pipeline and verified the operation of the production application.
 
-## Production Server Monitoring
+The testing results demonstrate that the application can be built, tested and deployed through the implemented DevOps infrastructure.
 
-### Monitoring Architecture
+---
 
-The project uses three main monitoring components:
+## Production Deployment Verification
 
-| Component | Port | Responsibility |
-|---|---:|---|
-| Node Exporter (VM3) | 9100 | Collects Linux server performance metrics |
-| Prometheus | 9090 | Scrapes and stores monitoring metrics |
-| Grafana | 3000 | Displays monitoring data through dashboards |
+The Flask application is hosted on VM3 using Docker.
 
-The monitoring architecture follows this workflow:
+The production environment was verified through:
+
+- Successful Docker Compose deployment.
+- Running application container.
+- Browser access to the Student Task Management System.
+- Successful application health endpoint response.
+- Production server performance monitoring.
+
+### Application Health Check
+
+```json
+{
+  "status": "healthy"
+}
+```
+
+HTTP Status: `200 OK`
+
+### Network Configuration
+
+The most recently documented VM3 IP address is:
 
 ```text
-VM3 — Production Server
-        |
-        v
-   Node Exporter
-      Port 9100
-        |
-        v
-    Prometheus
-      Port 9090
-        |
-        v
-      Grafana
-      Port 3000
-        |
-        v
-Production Server Monitoring Dashboard
+172.20.10.3
 ```
 
-### Current Monitoring Configuration
-
-Node Exporter is running on VM3 and exposes Linux system metrics through port 9100.
-
-Prometheus is configured with a `production-server` scrape job targeting VM3.
-
-Example configuration:
-
-```yaml
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-
-scrape_configs:
-  - job_name: 'production-server'
-    static_configs:
-      - targets:
-          - '172.20.10.3:9100'
-
-  - job_name: 'prometheus'
-    static_configs:
-      - targets:
-          - 'localhost:9090'
-```
-
-The VM3 target address is currently `172.20.10.3:9100`. This address is assigned by the hotspot network and may change when the network connection changes.
-
-If the address changes, the target in `monitoring/prometheus.yml` must be updated accordingly.
-
-### Grafana Dashboard
-
-The project uses a Grafana dashboard named **Production Server Monitoring**.
-
-The current verified dashboard displays:
-
-- CPU usage
-- Memory usage
-- Disk usage
-- Node Exporter availability
-
-Additional monitoring metrics planned for the dashboard include:
-
-- Server uptime
-- System load average (1-minute, 5-minute and 15-minute)
-- Network download speed
-- Network upload speed
-- Network errors
-- Network dropped packets
-- Network interface status
-- Filesystem inode usage
-- System context switches
-- System interrupts
-- Operating system information
-
-The updated Grafana dashboard is exported as a JSON file to allow the dashboard configuration to be stored, shared and imported when required.
-
-### Monitoring Project Files
-
-The monitoring-related files are maintained in the `monitoring/` directory.
+Production application:
 
 ```text
-monitoring/
-├── prometheus.yml
-├── production-server-monitoring.json
-└── README.md
+http://172.20.10.3:5000
 ```
 
-The files serve the following purposes:
+Node Exporter:
 
-| File | Purpose |
-|---|---|
-| `prometheus.yml` | Prometheus scrape configuration |
-| `production-server-monitoring.json` | Exported Grafana dashboard configuration |
-| `README.md` | Monitoring installation, configuration and setup instructions |
+```text
+http://172.20.10.3:9100/metrics
+```
 
-### Current Monitoring Status
+The virtual machines use a shared network for communication. If the production server IP address changes, the Jenkins production host configuration and Prometheus monitoring target must be updated accordingly.
 
-- Node Exporter is running on VM3, and its metrics have been verified from the monitoring machine.
-- Prometheus is configured with a `production-server` job targeting VM3 (`172.20.10.3:9100`).
-- The Prometheus Targets page shows the Node Exporter target as **UP**.
-- Grafana is connected to Prometheus.
-- The Production Server Monitoring dashboard displays CPU usage, memory usage, disk usage and node availability using live monitoring data.
-- The monitoring configuration, updated dashboard JSON export and setup guide are maintained in the `monitoring/` folder on the `feature/monitoring` branch.
-
-### Current Limitations
-
-- Prometheus and Grafana currently run on the owner's laptop, which is connected to the same hotspot as VM3.
-- The team still needs to decide whether Prometheus and Grafana should be moved to VM1 for the final demonstration.
-- VM3's IP address is assigned by the hotspot network and may change. If it changes, the target address in `monitoring/prometheus.yml` must be updated.
-- Monitoring has not yet been verified during a Jenkins-triggered deployment.
-- The team must verify that monitoring continues to collect production server metrics after the automated Level 4 deployment.
-
-Monitoring will be considered complete when the dashboard continues displaying the production server's metrics after the automated Level 4 deployment.
+---
 
 ## Development Workflow
 
-Each team member should work on a separate feature branch to support parallel development and reduce conflicts.
-
-The current branch structure is:
+Each team member worked on a separate feature branch to support parallel development and reduce integration conflicts.
 
 | Branch | Purpose |
 |---|---|
-| `main` | Integrated project code |
+| `main` | Integrated project source code |
 | `feature/jenkins` | Jenkins CI/CD configuration |
 | `feature/flask-app` | Flask application and automated tests |
-| `feature/docker` | Docker and deployment configuration |
+| `feature/docker` | Docker and production deployment configuration |
 | `feature/monitoring` | Prometheus, Grafana and Node Exporter monitoring configuration |
 
-Changes should be committed and pushed to the relevant feature branches.
+The development workflow includes:
 
-Pull Requests should be submitted for review before changes are merged into `main`.
+1. Create or update the relevant feature branch.
+2. Implement and test the assigned component.
+3. Commit and push changes to GitHub.
+4. Create a Pull Request for review.
+5. Integrate approved changes into the project.
+6. Perform integration testing and deployment verification.
 
-Passwords, SSH private keys, access tokens and other sensitive credentials must not be committed to the repository.
+Passwords, SSH private keys, personal access tokens and other sensitive credentials must not be committed to the repository.
 
-## Next Steps
+---
 
-1. Complete the Jenkins Pipeline configuration.
-2. Configure the required SSH connections among the servers.
-3. Build the application and perform automated testing through Jenkins.
-4. Deploy the approved application to VM3.
-5. Decide where Prometheus and Grafana will run for the final demonstration (VM1 or the owner's laptop).
-6. Verify that the Grafana dashboard continues displaying production server metrics after the Jenkins-triggered deployment.
-7. Demonstrate automatic or deferred deployment after a source-code change.
-8. Collect screenshots, pipeline execution logs and testing results for the final project report.
-9. Complete integration testing and prepare the final project presentation.
+## Team Collaboration and Integration
+
+All five team members collaborated throughout the development and testing process.
+
+Chan Kar Yan managed the GitHub repository, coordinated task allocation, reviewed Pull Requests and organised the presentation.
+
+Yong Khai Cheik and Raqibul Hasan worked together to configure the virtual machine environments, Jenkins connectivity, Docker builds, automated testing and production deployment.
+
+Charya Kavingi Mayadunna Dissawage supplied the Flask application and automated pytest tests required for application integration.
+
+Lee Ren Qi collaborated with Raqibul Hasan to configure production monitoring, verify Node Exporter connectivity and display production server metrics using Prometheus and Grafana.
+
+The team communicated regularly, reviewed individual progress, resolved integration issues and prepared the final project demonstration.
+
+---
+
+## Challenges and Solutions
+
+| Challenge | Solution |
+|---|---|
+| High memory usage when running multiple virtual machines | Reduced unnecessary background processes and coordinated VM resource usage |
+| Network connectivity between different virtual machines and laptops | Configured shared network connectivity and verified SSH communication |
+| Docker container startup issues | Corrected application startup configuration and rebuilt the container |
+| Differences between development and deployment configurations | Coordinated GitHub integration and reviewed application compatibility |
+| Changing production server IP address | Updated Jenkins deployment settings and Prometheus monitoring targets |
+| Integrating individual project components | Used GitHub feature branches, Pull Requests and team integration testing |
+
+These challenges provided practical experience in troubleshooting software deployment, infrastructure configuration and collaborative DevOps development.
+
+---
+
+## Final Presentation and Demonstration
+
+The final presentation demonstrates the completed DevOps implementation.
+
+1. Introduce the project background, objectives and team responsibilities.
+2. Show the GitHub repository, source code and development workflow.
+3. Explain the Flask application and automated pytest tests.
+4. Demonstrate the Jenkins pipeline and Docker build on VM2.
+5. Show all nine automated tests passing.
+6. Demonstrate production deployment to VM3.
+7. Demonstrate the source-code change and automated or deferred deployment workflow.
+8. Verify the updated production application and health endpoint.
+9. Show Prometheus and Grafana production monitoring.
+10. Discuss implementation challenges, solutions and lessons learned.
+
+### Presentation Responsibilities
+
+| Member | Presentation Responsibility |
+|---|---|
+| Chan Kar Yan | Project introduction, background, scope, GitHub and team coordination |
+| Yong Khai Cheik | VM infrastructure, networking and build/test environment |
+| Charya Kavingi Mayadunna Dissawage | Flask application and automated testing |
+| Raqibul Hasan | Jenkins pipeline, Docker and production deployment |
+| Lee Ren Qi | Design compatibility and production monitoring |
+
+---
 
 ## Project Deliverables
 
@@ -300,19 +477,35 @@ Passwords, SSH private keys, access tokens and other sensitive credentials must 
 - Automated pytest test suite
 - Docker configuration
 - Docker Compose configuration
-- Jenkins CI/CD Pipeline
-- Test and Production server environments
+- Jenkins CI/CD pipeline
+- Three virtual machine environments
+- Production deployment configuration
 - Prometheus monitoring configuration
-- Node Exporter installation and configuration
+- Node Exporter configuration
 - Grafana monitoring dashboard and JSON export
-- Monitoring installation and setup guide
+- Monitoring setup documentation
 - Level 4 deployment demonstration
-- Project presentation and final report
+- Project presentation
+- Contribution document and supporting evidence
 
-## Project Status
+---
 
-**CI/CD Pipeline Successfully Tested — Final Level 4 Verification Pending**
+## Conclusion
 
-The Jenkins CI/CD pipeline has been successfully tested. VM1 is working as the Jenkins controller, while VM2 is used as the Jenkins agent for Docker builds and automated testing. All 9 automated tests passed, and the pipeline successfully deployed the application to VM3.
+This project demonstrates the implementation of a complete DevOps deployment pipeline for a Student Task Management System.
 
-The remaining work includes the final Level 4 automatic deployment demonstration and post-deployment monitoring verification.
+The team successfully integrated GitHub, Jenkins, Docker, Ubuntu Server, Flask, SQLite, pytest, Prometheus, Grafana and Node Exporter into a working deployment and monitoring environment.
+
+The Jenkins pipeline uses VM1 for orchestration, VM2 for application building and automated testing, and VM3 for production deployment. All nine automated tests passed, and the application was successfully deployed to the production server.
+
+The project provided practical experience in source code management, infrastructure configuration, automated testing, continuous integration, software deployment, production monitoring and team collaboration.
+
+**Final Project Status: Level 4 Implementation and Testing Completed**
+
+---
+
+## Acknowledgement
+
+This project was completed by Group 1 for SWE40006 Software Deployment and Evolution at Swinburne University of Technology.
+
+We would like to thank our tutor, Dr Ruby Tinawin, for her guidance and support throughout the project.
