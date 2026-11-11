@@ -97,6 +97,9 @@ def add_task():
     if priority not in PRIORITIES:
         priority = "Medium"
 
+    if start_date and end_date and end_date < start_date:
+        return "End date cannot be before start date.", 400
+
     if title:
         connection = get_db()
 
@@ -124,6 +127,9 @@ def edit_task(task_id):
 
     if priority not in PRIORITIES:
         priority = "Medium"
+
+    if start_date and end_date and end_date < start_date:
+        return "End date cannot be before start date.", 400
 
     if title:
         connection = get_db()
