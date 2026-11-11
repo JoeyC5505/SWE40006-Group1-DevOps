@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,6 +194,26 @@
                 <option value="Low">Low</option>
             </select>
 
+            <!-- Start Date -->
+            <label for="start_date">Start Date:</label>
+
+            <input
+                type="date"
+                name="start_date"
+                id="start_date"
+                required
+            >
+
+            <!-- End Date -->
+            <label for="end_date">End Date:</label>
+
+            <input
+                type="date"
+                name="end_date"
+                id="end_date"
+                required
+            >
+
             <button type="submit" class="add-btn">
                 + Add Task
             </button>
@@ -228,6 +249,15 @@
                     <strong class="priority-{{ task.priority|lower }}">
                         {{ task.priority }}
                     </strong>
+                </p>
+
+                <!-- Display Dates -->
+                <p>
+                    Start Date: {{ task.start_date or 'Not set' }}
+                </p>
+
+                <p>
+                    End Date: {{ task.end_date or 'Not set' }}
                 </p>
 
                 <div class="task-actions">
@@ -291,6 +321,26 @@
                                 </option>
 
                             </select>
+
+                            <!-- Edit Start Date -->
+                            <label>Start Date:</label>
+
+                            <input
+                                type="date"
+                                name="start_date"
+                                value="{{ task.start_date or '' }}"
+                                required
+                            >
+
+                            <!-- Edit End Date -->
+                            <label>End Date:</label>
+
+                            <input
+                                type="date"
+                                name="end_date"
+                                value="{{ task.end_date or '' }}"
+                                required
+                            >
 
                             <button type="submit" class="edit-btn">
                                 Save Changes
